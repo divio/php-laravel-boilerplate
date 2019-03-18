@@ -34,7 +34,24 @@ RUN apk add --no-cache --virtual .build-deps \
     && curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer \
     && apk del -f .build-deps
 
+COPY install-node.sh /
+RUN sh /install-node.sh
+
+COPY database /app/database
+COPY composer.* /app/
+COPY package*.json /
+RUN cd /app && composer install --no-scripts
+RUN cd / && npm install
+
+RUN php artisan package:discover --ansi
+RUN php -r "file_exists('.env') || copy('.env.example', '.env');"
+RUN php artisan key:generate --ansi
+
 WORKDIR /app
 
 EXPOSE 80
 COPY . /app
+
+RUN npm run prod
+
+CMD sh
