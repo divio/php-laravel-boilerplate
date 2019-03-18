@@ -24,7 +24,7 @@ RUN mv forego /usr/local/bin/forego
 
 COPY apache.conf /etc/apache2/sites-enabled/000-default.conf
 
-RUN chmod -R +w /app/storage/framework
+RUN chmod -R 777 /app/storage/framework
 
 WORKDIR /app
 
