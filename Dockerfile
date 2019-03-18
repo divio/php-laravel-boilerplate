@@ -43,15 +43,15 @@ COPY package*.json /
 RUN cd /app && composer install --no-scripts
 RUN cd / && npm install
 
-RUN php artisan package:discover --ansi
-RUN php -r "file_exists('.env') || copy('.env.example', '.env');"
-RUN php artisan key:generate --ansi
+COPY . /app
+RUN php /app/artisan package:discover --ansi
+RUN php -r "file_exists('/app/.env') || copy('/app/.env.example', '/app/.env');"
+RUN php /app/artisan key:generate --ansi
 
 WORKDIR /app
 
 EXPOSE 80
-COPY . /app
 
-RUN npm run prod
+RUN npm run prod --prefix /
 
 CMD sh
