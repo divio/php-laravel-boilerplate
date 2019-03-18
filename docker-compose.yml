@@ -14,8 +14,7 @@ services:
       - db
     environment:
       - DATABASE_URL=postgres://postgres@db:5432/db
-    command:
-      - php /app/myapp/artisan serve --port=80
+    command: php /app/myapp/artisan serve --host 0.0.0.0 --port=80
 
   db:
     image: postgres:9.6-alpine

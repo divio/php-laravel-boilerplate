@@ -4,5 +4,5 @@ RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/
 
 WORKDIR /app
 
-EXPOSE 80/tcp 443/tcp
+EXPOSE 80
 COPY . /app
