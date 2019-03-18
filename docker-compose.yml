@@ -1,0 +1,25 @@
+version: "2.3"
+
+services:
+  web:
+    build: .
+    links:
+      - "db:postgres"
+    ports:
+      - "8000:80"
+    volumes:
+      - ".:/app:rw"
+      - "./data:/data:rw"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres@db:5432/db
+    command:
+      - php /app/myapp/artisan serve --port=80
+
+  db:
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_DB: "db"
+    volumes:
+      - ".:/app:rw"
