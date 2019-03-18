@@ -22,6 +22,7 @@ RUN curl -O https://bin.equinox.io/c/ekMN3bCZFUn/forego-stable-linux-amd64.tgz
 RUN tar xf forego-stable-linux-amd64.tgz
 RUN mv forego /usr/local/bin/forego
 
+COPY apache.conf /etc/apache2/sites-enabled/000-default.conf
 
 WORKDIR /app
 
