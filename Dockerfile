@@ -1,19 +1,19 @@
 FROM divio/base-php
 
-COPY database /app/database
-COPY composer.* /app/
-RUN cd /app && composer install --no-scripts
+COPY database /var/www/html/database
+COPY composer.* /var/www/html/
+RUN cd /var/www/html && composer install --no-scripts
 
-COPY package*.json /
-RUN cd / && npm install
+# COPY package*.json /
+# RUN cd / && npm install
 
-COPY . /app
-RUN php /app/artisan package:discover --ansi
-RUN php -r "file_exists('/app/.env') || copy('/app/.env.example', '/app/.env');"
-RUN php /app/artisan key:generate --ansi
+COPY . /var/www/html
+RUN php /var/www/html/artisan package:discover --ansi
+RUN php -r "file_exists('/var/www/html/.env') || copy('/var/www/html/.env.example', '/var/www/html/.env');"
+RUN php /var/www/html/artisan key:generate --ansi
 
-WORKDIR /app
+WORKDIR /var/www/html
 
 EXPOSE 80
 
-RUN npm run prod --prefix /
+# RUN npm run prod --prefix /

@@ -8,17 +8,17 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ".:/app:rw"
+      - ".:/var/www/html:rw"
       - "./data:/data:rw"
     depends_on:
       - db
     environment:
       - DATABASE_URL=postgres://postgres@db:5432/db
-    command: php /app/artisan serve --host 0.0.0.0 --port=80
+    command: php /var/www/html/artisan serve --host 0.0.0.0 --port=80
 
   db:
     image: postgres:9.6-alpine
     environment:
       POSTGRES_DB: "db"
     volumes:
-      - ".:/app:rw"
+      - ".:/var/www/html:rw"
