@@ -39,8 +39,9 @@ RUN sh /install-node.sh
 
 COPY database /app/database
 COPY composer.* /app/
-COPY package*.json /
 RUN cd /app && composer install --no-scripts
+
+COPY package*.json /
 RUN cd / && npm install
 
 COPY . /app
