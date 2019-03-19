@@ -1,4 +1,4 @@
-FROM divio/base-php:0.0.1
+FROM divio/base-php:0.0.2
 
 COPY database /app/database
 COPY composer.* /app/
