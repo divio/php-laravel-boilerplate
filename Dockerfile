@@ -1,23 +1,31 @@
-FROM divio/base-php:0.0.2
+FROM robwi/php-test:latest
 
-COPY database /app/database
-COPY composer.* /app/
-RUN cd /app && composer install --no-scripts
+COPY src /code
+RUN cd /code && composer install --no-scripts
+RUN cd /code && yarn install
+RUN yarn run prod 
 
-COPY package.json /
-COPY yarn.lock /
-RUN cd / && yarn install
+# COPY apache.conf /etc/apache2/sites-enabled/000-default.conf
+COPY config/vhost.conf /etc/nginx/sites-available/default
 
-COPY apache.conf /etc/apache2/sites-enabled/000-default.conf
-
-WORKDIR /app
+WORKDIR /code
 
 EXPOSE 80
 
-COPY . /app
-RUN php /app/artisan package:discover --ansi
-RUN php -r "file_exists('/app/.env') || copy('/app/.env.example', '/app/.env');"
-RUN php /app/artisan key:generate --ansi
-RUN chmod -R 777 /app/storage/framework
+RUN php /code/artisan package:discover --ansi
 
-RUN yarn run prod --prefix /
+# RUN php -r "file_exists('/code/.env') || copy('/code/.env.example', '/code/.env');"
+RUN cp /code/.env.example /code/.env
+
+# prepare laravel environment
+RUN php /code/artisan key:generate --ansi && \
+    php /code/artisan cache:table && \
+    php /code/artisan session:table
+
+RUN mkdir -p bootstrap/cache storage storage/framework storage/framework/sessions storage/framework/views storage/framework/cache
+RUN chmod -R 777 storage/framework
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod a+x /usr/local/bin/docker-entrypoint
+ENTRYPOINT [ "/bin/bash" ]
+CMD [ "/usr/local/bin/docker-entrypoint" ]

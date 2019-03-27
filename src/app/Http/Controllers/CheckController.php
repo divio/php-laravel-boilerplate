@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use \Str;
+
+
+class CheckController extends Controller
+{
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+    }
+
+
+    public function index() {
+
+        echo "<pre>";
+
+        echo "\n\n";
+        echo "## selecting * from users\n\n";
+
+        DB::table('users')->delete();
+        var_dump(DB::table('users')->get());
+
+        echo "\n\n";
+        echo "## insert into users\n\n";
+
+
+        DB::table('users')->insert(
+            [
+                'name' => Str::random(10),
+                'email' => Str::random(10) ."@example.com",
+                'email_verified_at' => now(),
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 
+                'remember_token' => Str::random(10),
+            ]
+        );
+
+        echo "\n\n";
+        echo "## selecting * from users\n\n";
+
+        var_dump(DB::table('users')->get());
+
+        echo "\n\n";
+        echo "## inserting random string into cache \n\n";
+
+        Cache::put('test', Str::random(12));
+
+        echo "\n\n";
+        echo "## getting random string from cache \n\n";
+
+        var_dump(Cache::get('test'));
+    }
+}
