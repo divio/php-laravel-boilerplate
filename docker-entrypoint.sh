@@ -45,6 +45,6 @@ if [ -n "$DEFAULT_STORAGE_DSN" ]; then
 fi
 
 # run database migrations
-# php /app/artisan migrate
+php /app/artisan migrate
 
 /usr/bin/dumb-init php-fpm7.2 -D && nginx
