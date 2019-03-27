@@ -1,4 +1,4 @@
-FROM robwi/php-test:latest
+FROM robwi/php-test:0.0.3
 
 COPY src /app
 RUN cd /app && composer install --no-scripts
