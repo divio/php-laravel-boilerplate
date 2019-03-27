@@ -15,4 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/check', 'CheckController@index');
+Route::get('/db', 'CheckController@database');
+Route::get('/env', 'CheckController@env');
+Route::get('/cache', 'CheckController@cache');

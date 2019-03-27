@@ -21,19 +21,17 @@ class CheckController extends Controller
     }
 
 
-    public function index() {
-
-        echo "<pre>";
+    public function database() {
 
         echo "\n\n";
         echo "## selecting * from users\n\n";
 
-        DB::table('users')->delete();
+        echo "<pre>";
         var_dump(DB::table('users')->get());
+        echo "</pre>";
 
         echo "\n\n";
         echo "## insert into users\n\n";
-
 
         DB::table('users')->insert(
             [
@@ -48,9 +46,16 @@ class CheckController extends Controller
         echo "\n\n";
         echo "## selecting * from users\n\n";
 
+        echo "<pre>";
         var_dump(DB::table('users')->get());
+        echo "</pre>";
 
-        echo "\n\n";
+        DB::table('users')->delete();
+
+    }
+
+    public function cache() {
+        
         echo "## inserting random string into cache \n\n";
 
         Cache::put('test', Str::random(12));
@@ -58,6 +63,13 @@ class CheckController extends Controller
         echo "\n\n";
         echo "## getting random string from cache \n\n";
 
+        echo "<pre>";
         var_dump(Cache::get('test'));
+    }
+
+    public function env() {
+        echo "<pre>";
+
+        var_dump($_ENV);
     }
 }
