@@ -14,7 +14,7 @@ services:
       - db
     environment:
       - DEFAULT_DATABASE_DSN=postgres://postgres@db:5432/db
-    #command: php /code/artisan serve --host 0.0.0.0 --port=80
+    #command: php /app/artisan serve --host 0.0.0.0 --port=80
     env_file: .env-local
 
   db:

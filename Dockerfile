@@ -1,26 +1,26 @@
 FROM robwi/php-test:latest
 
-COPY src /code
-RUN cd /code && composer install --no-scripts
-RUN cd /code && yarn install
+COPY src /app
+RUN cd /app && composer install --no-scripts
+RUN cd /app && yarn install
 RUN yarn run prod 
 
 # COPY apache.conf /etc/apache2/sites-enabled/000-default.conf
 COPY config/vhost.conf /etc/nginx/sites-available/default
 
-WORKDIR /code
+WORKDIR /app
 
 EXPOSE 80
 
-RUN php /code/artisan package:discover --ansi
+RUN php /app/artisan package:discover --ansi
 
-# RUN php -r "file_exists('/code/.env') || copy('/code/.env.example', '/code/.env');"
-RUN cp /code/.env.example /code/.env
+# RUN php -r "file_exists('/app/.env') || copy('/app/.env.example', '/app/.env');"
+RUN cp /app/.env.example /app/.env
 
 # prepare laravel environment
-RUN php /code/artisan key:generate --ansi && \
-    php /code/artisan cache:table && \
-    php /code/artisan session:table
+RUN php /app/artisan key:generate --ansi && \
+    php /app/artisan cache:table && \
+    php /app/artisan session:table
 
 RUN mkdir -p bootstrap/cache storage storage/framework storage/framework/sessions storage/framework/views storage/framework/cache
 RUN chmod -R 777 storage/framework
