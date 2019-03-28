@@ -3,4 +3,4 @@
 # will be removed. Please use the "start migrate" command to run migrations.
 # Custom migrations can be added through the MIGRATION_COMMANDS setting.
 set -x
-php /app/artisan migrate -f
+php /app/artisan migrate --force
