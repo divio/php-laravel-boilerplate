@@ -18,9 +18,7 @@ RUN php /app/artisan package:discover --ansi
 RUN cp /app/.env.example /app/.env
 
 # prepare laravel environment
-RUN php /app/artisan key:generate --ansi && \
-    php /app/artisan cache:table && \
-    php /app/artisan session:table
+RUN php /app/artisan key:generate --ansi 
 
 RUN mkdir -p bootstrap/cache storage storage/framework storage/framework/sessions storage/framework/views storage/framework/cache
 RUN chmod -R 777 storage/framework
