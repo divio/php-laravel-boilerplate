@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
 use \Str;
 
@@ -71,5 +72,19 @@ class CheckController extends Controller
         echo "<pre>";
 
         var_dump($_ENV);
+    }
+
+    public function filesystem() {
+        $filename = Str::random(8);
+
+        echo "## Uploading random file $filename";
+        Storage::put($filename, Str::random(100));
+
+        echo "<br>";
+
+        $url = Storage::url($filename);
+        echo "## getting url of $filename -> $url";
+
+
     }
 }

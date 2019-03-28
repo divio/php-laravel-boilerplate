@@ -18,3 +18,4 @@ Route::get('/', function () {
 Route::get('/db', 'CheckController@database');
 Route::get('/env', 'CheckController@env');
 Route::get('/cache', 'CheckController@cache');
+Route::get('/filesystem', 'CheckController@filesystem');
