@@ -1,4 +1,5 @@
 FROM robwi/php-test:0.0.4
+EXPOSE 80
 
 COPY src /app
 RUN cd /app && composer install --no-scripts
@@ -9,11 +10,11 @@ COPY config/vhost.conf /etc/nginx/sites-available/default
 
 WORKDIR /app
 
-EXPOSE 80
-
+RUN cp /app/.env.example /app/.env
 RUN php /app/artisan package:discover --ansi
 
 # prepare laravel environment
+# TODO: Key should not be regenerated if existent!
 RUN php /app/artisan key:generate --ansi 
 
 RUN mkdir -p bootstrap/cache storage storage/framework storage/framework/sessions storage/framework/views storage/framework/cache

@@ -6,7 +6,6 @@
 # use example .env file as reference to build on
 # TODO: rewrite to use environment specific sample instead of generic example
 # TODO: possibly use variables instead of hard line rewrites below
-cp /app/.env.example /app/.env
 
 # change app settings
 sed -i "s/APP_URL=.*/APP_URL=https:\/\/${DOMAIN:-localhost}/g" /app/.env
