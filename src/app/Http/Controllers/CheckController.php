@@ -19,7 +19,7 @@ class CheckController extends Controller
      */
     public function __construct()
     {
-    }
+    }   
 
 
     public function database() {

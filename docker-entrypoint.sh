@@ -3,6 +3,11 @@
 # This is used to prepare the .env file for laravel test and live environments
 # it translates the environment variables into a syntax that laravel can understand 
 
+# use example .env file as reference to build on
+# TODO: rewrite to use environment specific sample instead of generic example
+# TODO: possibly use variables instead of hard line rewrites below
+cp /app/.env.example /app/.env
+
 # change app settings
 sed -i "s/APP_URL=.*/APP_URL=https:\/\/${DOMAIN:-localhost}/g" /app/.env
 sed -i "s/APP_DEBUG=.*/APP_DEBUG=${DEBUG:-true}/g" /app/.env
@@ -43,7 +48,7 @@ if [ -n "$DEFAULT_STORAGE_DSN" ]; then
     sed -i "s/AWS_BUCKET=.*/AWS_BUCKET=$AWS_HOST/g" /app/.env
 
 fi
-
+ 
 # run database migrations
 php /app/artisan migrate --force
 

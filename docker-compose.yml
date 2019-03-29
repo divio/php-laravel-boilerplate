@@ -12,7 +12,8 @@ services:
       - "./src/data:/data:rw"
     depends_on:
       - db
-    command: php /app/artisan serve --host 0.0.0.0 --port=80
+    entrypoint: ""
+    command: /usr/bin/php /app/artisan serve --host 0.0.0.0 --port=80
     env_file: .env-local
 
   db:
