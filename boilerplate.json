@@ -1,0 +1,9 @@
+{
+    "identifier": "php-laravel",
+    "package-name": "php-laravel-boilerplate",
+    "version": "0.0.1",
+    "templates": [],   
+    "excluded": [
+        "LICENSE.txt"
+    ]
+}

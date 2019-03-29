@@ -25,5 +25,4 @@ RUN chmod -R 777 storage/framework
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod a+x /usr/local/bin/docker-entrypoint
-ENTRYPOINT [ "/bin/bash" ]
 CMD [ "/usr/local/bin/docker-entrypoint" ]
