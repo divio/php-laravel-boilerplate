@@ -8,12 +8,12 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - "./src:/app:rw"
-      - "./src/data:/data:rw"
+      - ".:/app:rw"
+      - "./data:/data:rw"
     depends_on:
       - db
     entrypoint: ""
-    command: /usr/bin/php /app/artisan serve --host 0.0.0.0 --port=80
+    command: ./run-locally.sh
     env_file: .env-local
 
   db:

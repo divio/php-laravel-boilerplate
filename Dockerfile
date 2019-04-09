@@ -1,26 +1,29 @@
-FROM robwi/php-test:0.0.4
+FROM robwi/divio-php:7.3-stretch
 EXPOSE 80
 
-COPY src /app
-RUN cd /app && composer install --no-scripts
-RUN cd /app && yarn install
-RUN yarn run prod 
+COPY migrate.sh run-locally.sh Procfile divio-cloud-init.php divio-migrate.sh /app/
+COPY start.sh /usr/local/bin/start
+
+RUN chmod a+x /usr/local/bin/start /app/migrate.sh /app/run-locally.sh /app/divio-migrate.sh
+
+COPY composer.* /app/
+RUN cd /app && composer install --no-scripts --no-autoloader
+
+COPY package.json /app/
+RUN cd /app/ && yarn install
 
 COPY config/vhost.conf /etc/nginx/sites-available/default
+COPY run-locally.sh /run-locally.sh
 
 WORKDIR /app
+COPY . /app
 
-RUN cp /app/.env.example /app/.env
-RUN php /app/artisan package:discover --ansi
+RUN cp /app/.env.example /app/.env \
+    && composer dump-autoload \
+    && php artisan key:generate \
+    && php artisan package:discover
 
-# prepare laravel environment
-# TODO: Key should not be regenerated if existent!
-RUN php /app/artisan key:generate --ansi 
+RUN echo 'auto_prepend_file="/app/divio-cloud-init.php"' > /usr/local/etc/php/conf.d/divio-conf.ini
 
-RUN mkdir -p bootstrap/cache storage storage/framework storage/framework/sessions storage/framework/views storage/framework/cache
-RUN chmod -R 777 storage/framework
-
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-RUN chmod a+x /usr/local/bin/docker-entrypoint
-
-CMD [ "/usr/local/bin/docker-entrypoint" ]
+RUN mkdir -p bootstrap/cache storage storage/framework storage/framework/sessions storage/framework/views storage/framework/cache && chmod -R 777 storage/framework
+RUN yarn run prod

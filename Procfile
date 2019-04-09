@@ -1,2 +1,2 @@
-migrate: php /app/artisan migrate
-web: php /app/artisan serve --port=80 --host=0.0.0.0
+migrate: chmod a+x /app/divio-migrate.sh && /app/divio-migrate.sh
+web: /usr/bin/dumb-init nginx && php-fpm -R

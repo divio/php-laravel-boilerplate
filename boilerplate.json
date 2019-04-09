@@ -1,9 +1,7 @@
 {
-    "identifier": "php-laravel",
-    "package-name": "php-laravel-boilerplate",
-    "version": "0.0.1",
-    "templates": [],   
-    "excluded": [
-        "LICENSE.txt"
-    ]
+  "identifier": "laravel-5.8",
+  "package-name": "laravel-latest-boilerplate",
+  "version": "0.0.13",
+  "templates": [],
+  "excluded": ["vendor", "data", "node_modules", "LICENSE.txt", "data.tar.gz"]
 }
