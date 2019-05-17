@@ -1,2 +1,2 @@
-migrate: chmod a+x /app/divio-migrate.sh && /app/divio-migrate.sh
-web: /usr/bin/dumb-init nginx && php-fpm -R
+migrate: php /app/artisan migrate --force
+web: php /app/divio/run-env.php "/usr/bin/dumb-init nginx && php-fpm -R"

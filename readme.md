@@ -1,11 +1,14 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Laravel for Divio Cloud
+
+This is a boilerplate template to integrate Laravel with Divio Cloud.
+- [Laravel for Divio Cloud](#laravel-for-divio-cloud)
+- [About Laravel](#about-laravel)
+- [Divio Cloud](#divio-cloud)
+- [Installation](#installation)
+  - [Development](#development)
+  - [Divio Cloud distinctions](#divio-cloud-distinctions)
 
 ## About Laravel
 
@@ -21,51 +24,64 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Divio Cloud
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Divio Cloud is cloud native service to quickly and easily deploy web projects with a no-fuss easy-to-use platform. The service seamlessly integrates with Laravel due to Laravel`s flexible configuration and its wide support for databases and cloud services. However, the default configuration of Laravel has to be slightly extended to automatically get all the benefits from Divio Cloud like painless and zero-downtime deployments, auto-scaling, backups etc.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost you and your team's skills by digging into our comprehensive video library.
+By using Divio Cloud you automatically get all the tools you are (or want to be ;)) used to out-of-the-box:
 
-## Laravel Sponsors
+- a Docker setup for production and development
+- a private git repository
+- complete Laravel setup with all dependencies
+- preinstalled and seamless AWS S3 integration
+- composer on steroids with [prestissimo](https://github.com/hirak/prestissimo)
+- a production environment using nginx and php-fpm
+- the necessary frontend tools in the correct version
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Installation
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
+After creating your project in the divio cloud interface, enter your applications dashboard and press `DEPLOY` to deploy the initial version on a test server. This will deploy a single server instance with your boilerplate ready to work in the cloud. Just click the link provided on the dashboard and the laravel default home will welcome you with a complete installation. You're new Laravel app is already deployed to the cloud, using your database and a cloud storage.
 
-## Contributing
+### Development
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+First, you should install the `divio-cli` [command line application](http://docs.divio.com/en/latest/reference/divio-cli.html) or the [Divio GUI](http://docs.divio.com/en/latest/reference/divio-app.html) to get started. Please read the docs carefully and make sure the client is configured and ready to use before you continue as it will make sure all dependencies are present. The `divio-cli` makes use of docker to provide a local development environment. In the background `docker-compose` is used to provide all the services needed for development in an environment as similar as possible to the cloud running you production application. After making sure `divio-cli` is working fine, please tun the installation commands as follows and replace `SLUG` with the name you chose for your application:
 
-## Security Vulnerabilities
+```
+$ divio project setup SLUG
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+This will clone the boilerplate to your local computer, download the database and setup your environment. To complete the php installation please enter the newly create directory (`cd SLUG`) named after your application, created by the `git clone` during the setup to enter the application root containing your laravel application sources and run
 
-## License
+```
+$ docker-compose run web php /app/divio/setup.php
+```
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This will make sure all directories needed are created, permissions are set correctly for development, run `composer install` to install all your requirements and migrate your database if necessary. _If you did NOT deploy to test prior to running the setup, your setup will complete but show an error message that the migrations have failed. This happens because your dependencies are missing during the setup and which is automatically fixed by running the `setup.php` script from above._
+
+You can now launch your development server by using
+
+```
+$ divio project up
+```
+
+which will open your browser with the welcome screen already opened.
+
+If you need to use `artisan` or `composer` commands you can now either enter your docker container containing your web application or run a command directly like we did with `setup.php`.
+
+```
+# To enter the running container and get a bash session
+$ docker-compose exec web bash
+
+# To directly run commands in your application
+$ docker-compose run web php artisan migrate
+```
+
+
+### Divio Cloud distinctions
+
+There are are few minor differences from a default Laravel setup that you should be aware of when starting to develop your application.
+
+The container running your application already contains everything you need for development, there is no need to install additional software. The provided source code is a plain Laravel installation, equal to what you would get by installing Laravel directly via `composer`. We just added a few scripts that ease interaction with Divio Cloud. They are either located in the root directory or the divio folder. The only package that is installed in addition to a clean Laravel application is `league/flysystem-aws-s3-v3` which provides the support for Laravel`s native storage engine.
+
+The biggest difference is the use of your environment variables, which are typically held in a file called `.env`. This behaviour is slightly different in our setup and uses native environment variables over the `.env` file. All credentials needed by your application are automatically injected into your environment and mapped onto the correct environment variables. You therefore don't need to configure anything to run your application in production, everything happens automatically. Of course you might want to override specific values or add configuration options, that are different from the defaults:
+For local development you can set the environment variables in `divio/.env-local`, for test and production environments you can either set them in the Divio Cloud web interface or in the `.env.example` file. Please make sure you *never* store secrets in this file, because it is added to source control. Only use it to store configuration values. For secrets only use the web interface.

@@ -13,8 +13,9 @@ services:
     depends_on:
       - db
     entrypoint: ""
-    command: ./run-locally.sh
-    env_file: .env-local
+    command: bash -c "chmod a+x /app/divio/run-locally.sh && php /app/divio/run-env.php /app/divio/run-locally.sh"
+    #command: start web
+    env_file: ./divio/.env-local
 
   db:
     image: postgres:9.6-alpine
