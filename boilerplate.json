@@ -1,7 +1,7 @@
 {
   "identifier": "laravel",
   "package-name": "laravel-5-8",
-  "version": "0.1",
+  "version": "0.1.1",
   "templates": [],
   "excluded": ["vendor", "data", "node_modules", "LICENSE.txt", "data.tar.gz", "storage"]
 }
