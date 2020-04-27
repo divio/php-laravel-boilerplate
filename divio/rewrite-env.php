@@ -28,13 +28,13 @@ $env['LOG_CHANNEL'] = 'stderr';
  * get the database credentials from the DSN variable and
  * translate them into different environment variables
  */
-$db = parse_url($_SERVER['DEFAULT_DATABASE_DSN'] ?? 'postgres://postgres@db:5432/db');
+$db = parse_url($_SERVER['DEFAULT_DATABASE_DSN'] ?? 'mysql://root:root@db:3306/db');
 
-$env['DB_CONNECTION'] = 'pgsql';
+$env['DB_CONNECTION'] = $db['scheme'];
 $env['DB_USERNAME'] = $db['user'];
 $env['DB_PASSWORD'] = $db['pass'] ?? '';
 $env['DB_HOST'] = $db['host'];
-$env['DB_PORT'] = $db['port'] ?? '5432';
+$env['DB_PORT'] = $db['port'] ?? '3306';
 $env['DB_DATABASE'] = substr($db['path'], 1);
 
 /**

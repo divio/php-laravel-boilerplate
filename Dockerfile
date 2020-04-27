@@ -1,4 +1,4 @@
-FROM divio/base:0.1-php7.3-stretch
+FROM robwi/base:0.3-php7.3-stretch
 EXPOSE 80
 
 COPY migrate.sh Procfile /app/
@@ -19,6 +19,8 @@ RUN bash -c "source $NVM_DIR/nvm.sh && \
     npm cache clear --force"
 ENV NODE_PATH=$NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules \
     PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+RUN mkdir -p bootstrap/cache storage storage/framework storage/framework/sessions storage/framework/views storage/framework/cache && chmod -R 777 storage/framework
 
 COPY composer.* /app/
 # We are running composer install BEFORE copying your application
@@ -46,7 +48,6 @@ RUN cp /app/.env.example /app/.env \
     && php artisan key:generate \
     && php artisan package:discover
 
-RUN mkdir -p bootstrap/cache storage storage/framework storage/framework/sessions storage/framework/views storage/framework/cache && chmod -R 777 storage/framework
 RUN yarn run prod
 
 ENTRYPOINT [ "" ]

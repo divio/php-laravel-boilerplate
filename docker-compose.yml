@@ -4,7 +4,7 @@
 #
 # See our Developer Handbook for more information:
 # http://docs.divio.com/en/latest/reference/docker-docker-compose.html
-version: "2.3"
+version: "3.2"
 
 services:
   # The web container is an instance of exactly the same Docker image as your
@@ -28,7 +28,7 @@ services:
     # See https://docs.divio.com/en/latest/reference/configuration-environment-variables.html.
     env_file: ./divio/.env-local
     links:
-      - "db:postgres"
+      - "db:mysql"
     depends_on:
       - db
     entrypoint: ""
@@ -36,8 +36,11 @@ services:
   # On the Cloud, your database runs on a dedicated cluster. Locally, we
   # replicate it in a Docker container called "db".
   db:
-    image: postgres:9.6-alpine
+    image: mysql:5.6
     environment:
-      POSTGRES_DB: "db"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
     volumes:
       - ".:/app:rw"
