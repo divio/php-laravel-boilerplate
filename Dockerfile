@@ -1,4 +1,4 @@
-FROM robwi/base:0.3-php7.3-stretch
+FROM divio/base:0.2-php7.3-stretch
 EXPOSE 80
 
 COPY migrate.sh Procfile /app/
@@ -9,8 +9,8 @@ RUN echo '[www]\nclear_env = no' > /usr/local/etc/php-fpm.d/zz-divio.conf
 RUN echo 'auto_prepend_file="/app/divio/rewrite-env.php"' > /usr/local/etc/php/conf.d/divio-conf.ini
 RUN chmod a+x /usr/local/bin/start /app/*.sh
 
-ENV NODE_VERSION=12.9.1 \
-    NPM_VERSION=6.10.2
+ENV NODE_VERSION=14 \
+    NPM_VERSION=6.14.4
 RUN bash -c "source $NVM_DIR/nvm.sh && \
     nvm install $NODE_VERSION && \
     nvm alias default $NODE_VERSION && \
@@ -34,7 +34,7 @@ COPY composer.* /app/
 RUN cd /app && composer install --no-scripts --no-autoloader
 
 COPY package.* /app/
-RUN cd /app && yarn install
+RUN bash -c "source $NVM_DIR/nvm.sh && cd /app && npm install"
 
 COPY divio/nginx/vhost.conf /etc/nginx/sites-available/default
 
@@ -43,12 +43,12 @@ COPY . /app
 
 # RUN cd /app && composer run-script post-install-cmd
 
-RUN cp /app/.env.example /app/.env \
+RUN bash -c "cp /app/.env.example /app/.env \
     && composer dump-autoload \
     && php artisan key:generate \
-    && php artisan package:discover
+    && php artisan package:discover"
 
-RUN yarn run prod
+RUN bash -c "source $NVM_DIR/nvm.sh && npm run prod"
 
 ENTRYPOINT [ "" ]
 CMD ["start", "web"]

@@ -28,7 +28,7 @@ $env['LOG_CHANNEL'] = 'stderr';
  * get the database credentials from the DSN variable and
  * translate them into different environment variables
  */
-$db = parse_url($_SERVER['DEFAULT_DATABASE_DSN'] ?? 'mysql://root:root@db:3306/db');
+$db = parse_url($_SERVER['DEFAULT_DATABASE_DSN'] ?? 'mysql://root@database_default:3306/db');
 
 $env['DB_CONNECTION'] = $db['scheme'];
 $env['DB_USERNAME'] = $db['user'];

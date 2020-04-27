@@ -28,19 +28,22 @@ services:
     # See https://docs.divio.com/en/latest/reference/configuration-environment-variables.html.
     env_file: ./divio/.env-local
     links:
-      - "db:mysql"
-    depends_on:
-      - db
+      - "database_default"
     entrypoint: ""
 
   # On the Cloud, your database runs on a dedicated cluster. Locally, we
-  # replicate it in a Docker container called "db".
-  db:
+  # replicate it in a Docker container.
+  database_default:
     image: mysql:5.6
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: "db"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      SERVICE_MANAGER: "fsm-mysql"
     volumes:
       - ".:/app:rw"
+      - "./data/db:/var/lib/mysql"
+    healthcheck:
+        test: "/usr/bin/mysql --user=root -h 127.0.0.1 --execute \"SHOW DATABASES;\""
+        interval: 2s
+        timeout: 20s
+        retries: 10

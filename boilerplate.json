@@ -1,7 +1,7 @@
 {
   "identifier": "laravel",
-  "package-name": "laravel-6",
-  "version": "6.0.0",
+  "package-name": "laravel-7",
+  "version": "7.0.0",
   "templates": [],
-  "excluded": ["vendor", "data", "node_modules", "LICENSE.txt", "data.tar.gz", "storage", "bootstrap/cache/packages.php", "bootstrap/cache/services.php"]
+  "excluded": ["vendor", "data", "node_modules", "LICENSE.txt", "data.tar.gz", "bootstrap/cache/packages.php", "bootstrap/cache/services.php",  "bootstrap/cache/config.php"]
 }
