@@ -1,4 +1,4 @@
-FROM divio/base:0.2-php7.3-stretch
+FROM divio/base:0.3-php7.3-stretch
 EXPOSE 80
 
 COPY migrate.sh Procfile /app/
