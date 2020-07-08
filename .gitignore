@@ -11,5 +11,6 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .aldryn
+.divio/
 data/
 data.tar.gz
